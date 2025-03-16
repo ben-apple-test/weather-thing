@@ -63,3 +63,5 @@ group :test do
 end
 
 gem "geocoder", "~> 1.8"
+
+gem "interactor", "~> 3.1"

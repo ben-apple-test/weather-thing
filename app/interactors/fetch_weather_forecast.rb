@@ -1,40 +1,69 @@
 class FetchWeatherForecast
   include Interactor
-
-  CACHE_TTL = 30.minutes
+  include WeatherCacheable
 
   def call
-    cached_forecast = read_forecast_cache
-
     context.result = {
-      is_cached: !cached_forecast.nil?,
-      zip_code: context.zip_code,
-      forecast: cached_forecast || fetch_and_cache_forecast
+      is_cached: cached_data?,
+      zip_code: zip_code,
+      forecast: fetch_data(:forecast),
+      current_temperature: fetch_data(:temperature)
     }
   end
 
-  def read_forecast_cache
-    Rails.cache.read forecast_cache_key
+  def read_cache(key)
+    Rails.cache.read(cache_key_for(key))
   end
 
-  def write_cached_forecast(forecast)
-    Rails.cache.write forecast_cache_key, forecast, expires_in: CACHE_TTL
+  def write_cache(key, value)
+    Rails.cache.write(cache_key_for(key), value, expires_in: cache_ttl)
   end
 
-  def forecast_cache_key
-    "forecast_#{context.zip_code}"
+  def cached_data?
+    !!(read_cache(:forecast) && read_cache(:temperature))
   end
 
-  def fetch_and_cache_forecast
-    forecast_service = Weather::OpenMeteo.new
-    latitude, longitude = Geocoder.coordinates(context.zip_code)
+  def fetch_data(type)
+    read_cache(type) || fetch_and_cache_weather_data(type)
+  end
 
-    raise "Unable to geocode zip code" if latitude.nil? || longitude.nil?
+  def fetch_and_cache_weather_data(type)
+    coords = latitude_and_longitude
+    raise "Unable to geocode zip code" if coords.nil? || coords.empty?
 
-    forecast = forecast_service.forecast(latitude, longitude)
-    write_cached_forecast(forecast)
-    forecast
+    data = fetch_from_service(type, *coords)
+    write_cache(type, data)
+    data
   rescue StandardError => e
-    context.fail!(error: e.message)
+    context.fail!(error: "Failed to fetch #{type}: #{e.message}")
+  end
+
+  def fetch_from_service(type, latitude, longitude)
+    case type
+    when :forecast
+      weather_service.forecast(latitude, longitude)
+    when :temperature
+      weather_service.current_temperature(latitude, longitude)
+    end
+  end
+
+  def latitude_and_longitude
+    @latitude_longitude ||= Geocoder.coordinates(zip_code)
+  end
+
+  def weather_service
+    @weather_service ||= Weather::OpenMeteo.new
+  end
+
+  def cache_key_for(key)
+    "#{key}_#{zip_code}"
+  end
+
+  def zip_code
+    context.zip_code
+  end
+
+  def cache_ttl
+    30.minutes
   end
 end

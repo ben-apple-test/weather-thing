@@ -11,6 +11,23 @@ module Weather
       @client = client || Http::Ruby.new
     end
 
+    def current_temperature(latitude, longitude)
+      raise ArgumentError, "Invalid latitude" unless latitude.between?(-90, 90)
+      raise ArgumentError, "Invalid longitude" unless longitude.between?(-180, 180)
+      current_temperature = client.get(
+        BASE,
+        {
+          latitude: latitude,
+          longitude: longitude,
+          current: 'temperature_2m'
+        }
+      )
+
+      current_temperature["current"]["temperature_2m"]
+    rescue JSON::ParserError, Http::Error => e
+      raise "Current temperature retrieval failed: #{e.message}"
+    end
+
     # Returns a simple weather forecast for the next 7 days as an array of hashes
     # Each hash contains the date, max_temp, min_temp, and precipitation
     # Temperatures are reported in Celsius

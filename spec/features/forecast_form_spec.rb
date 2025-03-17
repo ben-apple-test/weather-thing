@@ -36,6 +36,6 @@ RSpec.describe "Forecast Form", type: :feature do
 
   it "displays the instruction message" do
     expect(page).to have_content("Get Your Weather Forecast")
-    expect(page).to have_content("Enter an address below to get the weather forecast")
+    expect(page).to have_content("Enter a US address below to get the weather forecast")
   end
 end

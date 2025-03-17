@@ -22,7 +22,6 @@ The prompt specified that the forecast data be cached based on zip code rather t
 Geocoder is a well established gem that by default uses Nominatim data to lookup coordinates and location data. In real life production we would probably want to use a paid service or host our own but it works out of the box and is easy for now. 
 
 ### ZipCodes
-This app has a ZipCodes table that contains a dump of all of the ZipCodes available from the USPS website. This table is used to do some validation on the supplied zip codes that are fed into Geocoder
-
+This app has a ZipCodes table that contains a dump of all of the ZipCodes available from the USPS website. This table is used to do validation on the supplied zip code that is fed into Geocoder. This also narrows the set of supported zip codes to just zipcodes from the united states.
 
 

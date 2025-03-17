@@ -1,6 +1,7 @@
 module Http
-  # This http client uses the Ruby standard library to make HTTP requests
-  class RubyClient
+  # This http client uses the Net::HTTP class from the ruby standard
+  # library to make HTTP requests
+  class Ruby
     def get(url, params = {}, headers = {})
       uri = URI(url)
       uri.query = URI.encode_www_form(params) unless params.empty?

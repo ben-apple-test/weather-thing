@@ -19,14 +19,14 @@ RSpec.describe FetchWeatherForecast do
   before do
     allow(Weather::OpenMeteo).to receive(:new).and_return(forecast_service)
     allow(forecast_service).to receive(:forecast).and_return(forecast_data)
-    allow(Geocoder).to receive(:coordinates).and_return([latitude, longitude])
+    allow(Geocoder).to receive(:coordinates).and_return([ latitude, longitude ])
   end
 
   context 'when forecast is cached' do
     it 'returns cached forecast' do
       allow(Rails.cache).to receive(:read).and_return(forecast_data)
       result = described_class.call(zip_code: zip_code)
-      
+
       expect(result).to be_success
       expect(result.result).to eq({
         is_cached: true,
@@ -42,14 +42,14 @@ RSpec.describe FetchWeatherForecast do
       allow(Rails.cache).to receive(:write)
 
       result = described_class.call(zip_code: zip_code)
-      
+
       expect(result).to be_success
       expect(result.result).to eq({
         is_cached: false,
         zip_code: zip_code,
         forecast: forecast_data
       })
-      
+
       expect(Rails.cache).to have_received(:write).with("forecast_#{zip_code}", forecast_data, expires_in: described_class::CACHE_TTL)
     end
   end
@@ -61,7 +61,7 @@ RSpec.describe FetchWeatherForecast do
 
     it 'fails with error message' do
       result = described_class.call(zip_code: zip_code)
-      
+
       expect(result).to be_failure
       expect(result.error).to eq('Unable to geocode zip code')
     end
@@ -74,7 +74,7 @@ RSpec.describe FetchWeatherForecast do
 
     it 'fails with error message' do
       result = described_class.call(zip_code: zip_code)
-      
+
       expect(result).to be_failure
       expect(result.error).to eq('API Error')
     end

@@ -12,5 +12,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "home#index"
-  get '/forecast', to: 'home#forecast', as: :forecast
+  get "/forecast", to: "home#forecast", as: :forecast
 end

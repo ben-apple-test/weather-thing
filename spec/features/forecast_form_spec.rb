@@ -21,15 +21,15 @@ RSpec.describe "Forecast Form", type: :feature do
       fill_in 'forecast_request[city]', with: 'Los Angeles'
       select 'California', from: 'forecast_request[state]'
       fill_in 'forecast_request[zip_code]', with: '90210'
-      
+
       click_button 'Get Forecast'
-      
+
       expect(page.current_path).to start_with('/forecast')
     end
 
     it "shows validation errors with invalid data" do
       click_button 'Get Forecast'
-      
+
       expect(page).to have_content("can't be blank")
     end
   end

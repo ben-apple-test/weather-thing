@@ -14,7 +14,7 @@ class HomeController < ApplicationController
   end
 
   def forecast_params
-    params.expect(forecast_request: [:street, :city, :state, :zip_code])
+    params.expect(forecast_request: [ :street, :city, :state, :zip_code ])
   end
 
   def fetch_forecast_result

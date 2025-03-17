@@ -31,7 +31,7 @@ module Http
     end
 
     def json_response?(response)
-      response.content_type == 'application/json'
+      response.content_type == "application/json"
     end
   end
 end

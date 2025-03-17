@@ -28,7 +28,7 @@ RSpec.describe ForecastRequest, type: :model do
     end
 
     context 'invalid or unknown zip code' do
-      let(:attributes) do 
+      let(:attributes) do
         {
           street: '123 Main St',
           city: 'Boston',

@@ -7,7 +7,7 @@ module Weather
 
     attr_reader :client
 
-    def initialize(client=nil)
+    def initialize(client = nil)
       @client = client || Http::Ruby.new
     end
 
@@ -24,16 +24,16 @@ module Weather
         {
           latitude: latitude,
           longitude: longitude,
-          daily: 'apparent_temperature_max,apparent_temperature_min,precipitation_sum',
+          daily: "apparent_temperature_max,apparent_temperature_min,precipitation_sum"
         }
       )
 
-      forecast['daily']['time'].map.with_index do |date, index|
+      forecast["daily"]["time"].map.with_index do |date, index|
         {
           date: date,
-          max_temp: forecast['daily']['apparent_temperature_max'][index],
-          min_temp: forecast['daily']['apparent_temperature_min'][index],
-          precipitation: forecast['daily']['precipitation_sum'][index],
+          max_temp: forecast["daily"]["apparent_temperature_max"][index],
+          min_temp: forecast["daily"]["apparent_temperature_min"][index],
+          precipitation: forecast["daily"]["precipitation_sum"][index]
         }
       end
     rescue JSON::ParserError, Http::Error => e

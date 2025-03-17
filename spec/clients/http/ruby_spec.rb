@@ -12,10 +12,10 @@ RSpec.describe Http::Ruby do
   end
 
   context 'response is successful' do
-    context'when the response is JSON' do
+    context 'when the response is JSON' do
       let(:response_double) {
         double(
-          content_type: 'application/json', 
+          content_type: 'application/json',
           body: '{"key":"value"}',
           code: 200,
           message: 'OK'
@@ -27,8 +27,8 @@ RSpec.describe Http::Ruby do
         allow(Net::HTTPSuccess).to receive(:===).and_return(true)
 
         allow(Net::HTTP).to receive(:get_response).and_return(response_double)
-        expect(subject.get('https://some-website.com')).to eq({"key"=>"value"})
+        expect(subject.get('https://some-website.com')).to eq({ "key"=>"value" })
       end
     end
-  end 
+  end
 end

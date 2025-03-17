@@ -13,6 +13,9 @@ servers:
   #     - 192.168.0.1
   #   cmd: bin/jobs
 
+deploy_timeout: 60
+readiness_delay: 20
+
 # Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
 # Remove this section when using multiple web servers and ensure you terminate SSL at your load balancer.
 #
@@ -24,10 +27,9 @@ proxy:
 # Credentials for your image host.
 registry:
   # Specify the registry server, if you're not using Docker Hub
-  server: registry.digitalocean.com/weather-thing
-  username:
+  server: registry.digitalocean.com/harbor-hobbies
+  username: 
     - KAMAL_REGISTRY_PASSWORD
-
   # Always use an access token rather than real password when possible.
   password:
     - KAMAL_REGISTRY_PASSWORD
@@ -77,7 +79,7 @@ asset_path: /rails/public/assets
 # Configure the image builder.
 builder:
   arch: amd64
-  remote: ssh://root@128.199.4.61
+  remote: ssh://root@134.199.209.56
 
   # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
   # remote: ssh://docker@docker-builder-server

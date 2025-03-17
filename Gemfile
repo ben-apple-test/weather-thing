@@ -50,7 +50,7 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
-  gem 'rspec-rails'
+  gem "rspec-rails"
 end
 
 group :development do
@@ -63,7 +63,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  gem 'shoulda-matchers'
+  gem "shoulda-matchers"
 end
 
 gem "geocoder", "~> 1.8"
@@ -73,3 +73,5 @@ gem "interactor", "~> 3.1"
 gem "rails-controller-testing", "~> 1.0"
 
 gem "chartkick", "~> 5.1"
+
+gem "rubocop", "~> 1.74"

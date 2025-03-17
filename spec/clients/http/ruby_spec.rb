@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Http::Ruby do
   context 'when when the HTTP Request is not successful' do
     it 'raises an error' do
-      allow_any_instance_of(Net::HTTP).to receive(:get).and_return(Net::HTTPServerError.new('1.1', 500, 'Internal Server Error'))
+      allow(Net::HTTP).to receive(:get_response).and_return(Net::HTTPServerError.new('1.1', 500, 'Internal Server Error'))
 
       expect {
         subject.get('https://some-website.com')
@@ -26,7 +26,7 @@ RSpec.describe Http::Ruby do
         # Stub the equality check so it will look like the double is a Net::HTTPSuccess object
         allow(Net::HTTPSuccess).to receive(:===).and_return(true)
 
-        allow_any_instance_of(Net::HTTP).to receive(:get).and_return(response_double)
+        allow(Net::HTTP).to receive(:get_response).and_return(response_double)
         expect(subject.get('https://some-website.com')).to eq({"key"=>"value"})
       end
     end

@@ -10,13 +10,14 @@ RSpec.describe HomeController, type: :controller do
 
   describe "GET #forecast" do
     context "with valid parameters" do
+      let!(:zip_code) { ZipCode.create!(code: '90210') }
       let(:valid_params) do
         {
           forecast_request: {
             street: "123 Main St",
             city: "Portland",
-            state: "OR",
-            zip_code: "97201"
+            state: "California",
+            zip_code: "90210"
           }
         }
       end

@@ -2,16 +2,12 @@ module Http
   class Error < StandardError; end
 
   class Ruby
-    DEFAULT_TIMEOUT = 10 # Timeout after 10 seconds
-
     def get(url, params = {}, headers = {})
       uri = URI(url)
       uri.query = URI.encode_www_form(params) unless params.empty?
 
-      Net::HTTP.start(uri.host, uri.port, use_ssl: true, read_timeout: DEFAULT_TIMEOUT) do |http|
-        response = http.get(uri.request_uri, headers)
-        handle_response(response)
-      end
+      response = Net::HTTP.get_response(uri, headers)
+      handle_response(response)
     rescue Timeout::Error, SocketError, Errno::ECONNREFUSED => e
       raise Error, "Connection failed: #{e.message}"
     end

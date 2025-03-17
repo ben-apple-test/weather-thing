@@ -14,11 +14,13 @@ RSpec.describe "Forecast Form", type: :feature do
   end
 
   context "when submitting the form" do
+    let!(:zip_code) { ZipCode.create!(code: '90210') }
+
     it "successfully submits with valid data" do
       fill_in 'forecast_request[street]', with: '123 Main St'
-      fill_in 'forecast_request[city]', with: 'Portland'
-      fill_in 'forecast_request[state]', with: 'OR'
-      fill_in 'forecast_request[zip_code]', with: '97201'
+      fill_in 'forecast_request[city]', with: 'Los Angeles'
+      select 'California', from: 'forecast_request[state]'
+      fill_in 'forecast_request[zip_code]', with: '90210'
       
       click_button 'Get Forecast'
       

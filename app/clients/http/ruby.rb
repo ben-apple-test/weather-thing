@@ -2,13 +2,13 @@ module Http
   class Error < StandardError; end
 
   class Ruby
-    DEFAULT_TIMEOUT = 30
+    DEFAULT_TIMEOUT = 10 # Timeout after 10 seconds
 
     def get(url, params = {}, headers = {})
       uri = URI(url)
       uri.query = URI.encode_www_form(params) unless params.empty?
 
-      Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https', read_timeout: DEFAULT_TIMEOUT) do |http|
+      Net::HTTP.start(uri.host, uri.port, read_timeout: DEFAULT_TIMEOUT) do |http|
         response = http.get(uri.request_uri, headers)
         handle_response(response)
       end

@@ -29,7 +29,7 @@ class FetchWeatherForecast
     forecast_service = Weather::OpenMeteo.new
     latitude, longitude = Geocoder.coordinates(context.zip_code)
     
-    raise Context::Failure, "Unable to geocode zip code" if latitude.nil? || longitude.nil?
+    raise "Unable to geocode zip code" if latitude.nil? || longitude.nil?
     
     forecast = forecast_service.forecast(latitude, longitude)
     write_cached_forecast(forecast)

@@ -7,3 +7,6 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+puts "Loading zip codes into the database..."
+Rake::Task['zip_codes:load_zip_codes'].invoke
+puts "Done"

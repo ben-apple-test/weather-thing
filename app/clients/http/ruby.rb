@@ -8,7 +8,7 @@ module Http
       uri = URI(url)
       uri.query = URI.encode_www_form(params) unless params.empty?
 
-      Net::HTTP.start(uri.host, uri.port, read_timeout: DEFAULT_TIMEOUT) do |http|
+      Net::HTTP.start(uri.host, uri.port, use_ssl: true, read_timeout: DEFAULT_TIMEOUT) do |http|
         response = http.get(uri.request_uri, headers)
         handle_response(response)
       end

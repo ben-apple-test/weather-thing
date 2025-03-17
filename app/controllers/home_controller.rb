@@ -6,8 +6,8 @@ class HomeController < ApplicationController
   def forecast
     @forecast_request = ForecastRequest.new(forecast_params)
 
-    if @forecast_request.valid?
-      
+    if @forecast_request.valid? && fetch_forecast_result.success?
+      @forecast = fetch_forecast_result.result
     else
       render :index, status: :unprocessable_entity
     end
@@ -15,5 +15,9 @@ class HomeController < ApplicationController
 
   def forecast_params
     params.expect(forecast_request: [:street, :city, :state, :zip_code])
+  end
+
+  def fetch_forecast_result
+    @forecast_result ||= FetchWeatherForecast.call(forecast_params)
   end
 end

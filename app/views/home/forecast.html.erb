@@ -1,7 +1,54 @@
-<h1>Forecast</h1>
-<div class="row justify-content-center">
-  <div class="col-md-6">
-    <%= @forecast_params %>
-    <!-- Display the weather forecast details here -->
+<div class="container mt-4">
+  <% if @forecast[:is_cached] %>
+    <div class="alert alert-info d-flex justify-content-between align-items-center mb-4">
+      <span><i class="bi bi-info-circle-fill me-2"></i>Showing cached weather data</span>
+      <span class="badge bg-secondary">ZIP: <%= @forecast[:zip_code] %></span>
+    </div>
+  <% end %>
+  <h1 class="text-center mb-4">7-Day Forecast</h1>
+  
+  <div class="card mb-4">
+    <div class="card-body">
+      <h4 class="card-title">Temperature Trends</h4>
+      <%= line_chart [
+        {name: "Max Temperature", data: @forecast[:forecast].map { |d| [d[:date], d[:max_temp]] }},
+        {name: "Min Temperature", data: @forecast[:forecast].map { |d| [d[:date], d[:min_temp]] }}
+      ], colors: ["#dc3545", "#0d6efd"], suffix: "°C" %>
+    </div>
   </div>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% @forecast[:forecast].each do |day| %>
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-header text-center">
+            <%= Date.parse(day[:date]).strftime('%A, %B %d') %>
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h5 class="mb-0">Temperature</h5>
+                <p class="mb-0">
+                  <span class="fs-4 text-danger"><%= day[:max_temp] %>°C</span>
+                  <span class="text-muted">|</span>
+                  <span class="fs-4 text-primary"><%= day[:min_temp] %>°C</span>
+                </p>
+              </div>
+              <div class="text-end">
+                <h5 class="mb-0">Rain</h5>
+                <p class="mb-0">
+                  <span class="fs-4"><%= day[:precipitation] %>mm</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% if @forecast[:is_cached] %>
+    <div class="text-center text-muted mt-3">
+      <small>Data from cache</small>
+    </div>
+  <% end %>
 </div>

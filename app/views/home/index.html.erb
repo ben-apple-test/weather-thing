@@ -1,2 +1,59 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<div class="mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="alert alert-info mb-4">
+        <h5 class="alert-heading">Get Your Weather Forecast</h5>
+        <p>Enter an address below to get the weather forecast. While we ask for your full address, please note that the forecast results are based on ZIP code only.</p>
+      </div>
+      <%= form_with model: @forecast_request, url: '/forecast', method: :get do |f| %>
+        <div class="mb-3">
+          <%= f.label :street, class: "form-label" %>
+          <%= f.text_field :street, value: @forecast_request.street, 
+              class: "form-control #{@forecast_request.errors[:street].any? ? 'is-invalid' : nil}", 
+              placeholder: "Enter street address" %>
+          <% if @forecast_request.errors[:street].any? %>
+            <div id="street-feedback" class="invalid-feedback d-block">
+              <%= @forecast_request.errors.full_messages_for(:street).first %>
+            </div>
+          <% end %>
+        </div>
+        <div class="mb-3">
+          <%= f.label :city, class: "form-label" %>
+          <%= f.text_field :city, value: @forecast_request.city, 
+              class: "form-control #{@forecast_request.errors[:city].any? ? 'is-invalid' : nil}", 
+              placeholder: "Enter city" %>
+          <% if @forecast_request.errors[:city].any? %>
+            <div id="city-feedback" class="invalid-feedback d-block">
+              <%= @forecast_request.errors.full_messages_for(:city).first %>
+            </div>
+          <% end %>
+        </div>
+        <div class="mb-3">
+          <%= f.label :state, class: "form-label" %>
+          <%= f.text_field :state, value: @forecast_request.state, 
+              class: "form-control #{@forecast_request.errors[:state].any? ? 'is-invalid' : nil}", 
+              placeholder: "Enter state" %>
+          <% if @forecast_request.errors[:state].any? %>
+            <div id="state-feedback" class="invalid-feedback d-block">
+              <%= @forecast_request.errors.full_messages_for(:state).first %>
+            </div>
+          <% end %>
+        </div>
+        <div class="mb-3">
+          <%= f.label :zip_code, class: "form-label" %>
+          <%= f.text_field :zip_code, value: @forecast_request.zip_code, 
+              class: "form-control #{@forecast_request.errors[:zip_code].any? ? 'is-invalid' : nil}", 
+              placeholder: "Enter ZIP code" %>
+          <% if @forecast_request.errors[:zip_code].any? %>
+            <div id="zip_code-feedback" class="invalid-feedback d-block">
+              <%= @forecast_request.errors.full_messages_for(:zip_code).first %>
+            </div>
+          <% end %>
+        </div>
+        <div class="d-grid">
+          <%= f.submit "Get Forecast", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -2,16 +2,19 @@ require 'rails_helper'
 
 RSpec.describe FetchWeatherForecast do
   let(:zip_code) { "12345" }
+  let(:street) { "123 Main St" }
+  let(:state) { "California" }
+  let(:city) { "Los Angeles" }
   let(:coords) { [ 42.0, -71.0 ] }
   let(:weather_service) { instance_double(Weather::OpenMeteo) }
   let(:forecast_data) { { "temp" => 72 } }
   let(:temperature_data) { 75.5 }
 
-  subject(:context) { described_class.call(zip_code: zip_code) }
+  subject(:context) { described_class.call(state: state, city: city, street: street, zip_code: zip_code) }
 
   before do
     allow(Weather::OpenMeteo).to receive(:new).and_return(weather_service)
-    allow(Geocoder).to receive(:coordinates).with(zip_code).and_return(coords)
+    allow(Geocoder).to receive(:coordinates).and_return(coords)
     allow(weather_service).to receive(:forecast).and_return(forecast_data)
     allow(weather_service).to receive(:current_temperature).and_return(temperature_data)
   end

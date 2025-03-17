@@ -15,7 +15,7 @@ RSpec.describe HomeController, type: :controller do
         {
           forecast_request: {
             street: "123 Main St",
-            city: "Portland",
+            city: "Los Angeles",
             state: "California",
             zip_code: "90210"
           }
@@ -23,6 +23,8 @@ RSpec.describe HomeController, type: :controller do
       end
 
       it "returns http success" do
+        allow(FetchWeatherForecast).to receive(:call).and_return(double(success?: true, result: {}))
+
         get :forecast, params: valid_params
         expect(response).to have_http_status(:success)
       end

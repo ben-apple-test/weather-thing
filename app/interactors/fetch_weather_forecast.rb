@@ -47,7 +47,7 @@ class FetchWeatherForecast
   end
 
   def latitude_and_longitude
-    @latitude_longitude ||= Geocoder.coordinates(zip_code)
+    @latitude_longitude ||= Geocoder.coordinates("#{context.street} #{context.city}, #{context.state} #{context.zip_code} USA")
   end
 
   def weather_service

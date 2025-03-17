@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe ForecastRequest, type: :model do
   describe 'validations' do
-    let(:valid_zip_code) { ZipCode.create(code: '90210') }
+    let(:valid_zip_code) { ZipCode.create!(code: '90210') }
     let(:attributes) do
       {
         street: '123 Main St',
         city: 'Boston',
-        state: 'MA',
+        state: 'Massachusetts',
         zip_code: valid_zip_code.code
       }
     end
@@ -16,10 +16,10 @@ RSpec.describe ForecastRequest, type: :model do
 
     it { should validate_presence_of(:street) }
     it { should validate_presence_of(:city) }
-    it { should validate_presence_of(:state) }
-    it { should validate_presence_of(:zip_code) }
 
-    it { should validate_length_of(:state).is_equal_to(2) }
+    it { should validate_presence_of(:state) }
+
+    it { should validate_presence_of(:zip_code) }
     it { should validate_length_of(:zip_code).is_equal_to(5) }
     it { should validate_numericality_of(:zip_code).only_integer }
 
@@ -41,6 +41,20 @@ RSpec.describe ForecastRequest, type: :model do
         expect(subject).not_to be_valid
         expect(subject.errors[:zip_code]).to include('is not a known zip code')
       end
+    end
+
+    # Add test for state format
+    it 'should not allow numbers in state' do
+      subject.state = '12'
+      expect(subject).not_to be_valid
+      expect(subject.errors[:state]).to include('is not a valid state')
+    end
+
+    # Add test for malformed zip code
+    it 'should not allow letters in zip code' do
+      subject.zip_code = '1234A'
+      expect(subject).not_to be_valid
+      expect(subject.errors[:zip_code]).to include('is not a number')
     end
   end
 

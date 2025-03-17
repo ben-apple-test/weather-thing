@@ -1,6 +1,5 @@
 class FetchWeatherForecast
   include Interactor
-  include WeatherCacheable
 
   def call
     context.result = {

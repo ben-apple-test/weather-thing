@@ -19,7 +19,7 @@ module Weather
         {
           latitude: latitude,
           longitude: longitude,
-          current: 'temperature_2m'
+          current: "temperature_2m"
         }
       )
 

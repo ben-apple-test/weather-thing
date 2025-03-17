@@ -8,7 +8,6 @@ class HomeController < ApplicationController
 
     if @forecast_request.valid? && fetch_forecast_result.success?
       @forecast = fetch_forecast_result.result
-      debugger
     else
       render :index, status: :unprocessable_entity
     end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe FetchWeatherForecast do
   let(:zip_code) { "12345" }
-  let(:coords) { [42.0, -71.0] }
+  let(:coords) { [ 42.0, -71.0 ] }
   let(:weather_service) { instance_double(Weather::OpenMeteo) }
   let(:forecast_data) { { "temp" => 72 } }
   let(:temperature_data) { 75.5 }
@@ -42,7 +42,7 @@ RSpec.describe FetchWeatherForecast do
     it "returns cached data" do
       expect(weather_service).not_to receive(:forecast)
       expect(weather_service).not_to receive(:current_temperature)
-      
+
       expect(context).to be_success
       expect(context.result).to include(
         is_cached: true,

@@ -68,3 +68,5 @@ end
 gem "geocoder", "~> 1.8"
 
 gem "interactor", "~> 3.1"
+
+gem "rails-controller-testing", "~> 1.0"

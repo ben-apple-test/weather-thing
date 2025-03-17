@@ -2,6 +2,9 @@
 
 A Ruby on Rails application that provides weather forecasts based on US addresses and zip codes.
 
+## Try it out
+This is hosted on digital ocean and running here [https://bensweatherthing.xyz/](https://bensweatherthing.xyz/). Kamal was used to deploy this application.
+
 ## Infrastructure
 + Database => SQLite
 + Caching => SolidCache
